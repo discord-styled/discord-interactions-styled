@@ -1,0 +1,266 @@
+from discord_slash.model import SlashCommandPermissionType
+from discord_slash.utils.manage_commands import create_permission
+
+def prepare_command(cmd, guild_id:int):
+    """Prepare command adding permissions param and guild_id key if needed
+
+    ### Args:
+        `cmd`: Command to prepare
+        `guild_id (int)`: Guild id to prepare
+
+    ### Returns:
+        `cmd`: Command with `__permissions__` and `__permissions__[guild_id]`
+    """
+    if not getattr(cmd, "__permissions__", None):
+        cmd.__permissions__ = {}
+    if guild_id not in cmd.__permissions__:
+            cmd.__permissions__[guild_id] = []
+    return cmd
+
+def _deny_everyone(cmd, guild_id:int):
+    """Deny permission for @everyone
+
+    ### Args:
+        `cmd`: Command
+        `guild_id (int)`: Guild id to apply permission
+
+    ### Returns:
+        `cmd`: Command with @everyone denied permission
+    """
+    cmd.__permissions__[guild_id].append(create_permission(guild_id, SlashCommandPermissionType.ROLE, False))
+    return cmd
+
+def deny_all(guild_id:int):
+    """Decorator, deny permissions for @everyone
+
+    ### Args:
+        `guild_id (int)`: Id of guild to apply permission
+
+    ### Example: ::
+
+        @slash.slash(...)
+        @deny_all(123)
+    
+    ### Equivalent to: ::
+
+        @slash.slash(..., permissions={
+            123: [
+                create_permission(123, SlashCommandPermissionType.ROLE, 123)
+            ]
+        })
+    """
+    def wrapper(cmd):
+        cmd = prepare_command(cmd, guild_id)
+        cmd = _deny_everyone(cmd, guild_id)
+        return cmd
+    return wrapper
+
+# ROLE PERMISSIONS ------>
+
+def _allow_role(cmd, guild_id:int, role_id:int, allow:bool=True):
+    """Create ROLE type permission
+
+    ### Args:
+        `cmd`: Command
+        `guild_id (int)`: Guild id to apply permission
+        `role_id (int)`: Role id to apply permission
+        `allow (bool, optional)`: Allow or deny permission. Defaults to True.
+
+    ### Returns:
+        `cmd`: Command with permission created
+    """
+    cmd.__permissions__[guild_id].append(
+        create_permission(role_id, SlashCommandPermissionType.ROLE, allow)
+    )
+    return cmd
+
+def only_allow_roles(guild_id:int, roles:list[int]):
+    """Decorator, deny permissions for @everyone and allow only for selected roles
+
+    ### Args:
+        `guild_id (int)`: Id of guild to apply permissions
+        `roles (list[int])`: List of role ids
+
+    ### Example: ::
+
+        @slash.slash(...)
+        @only_allow_roles(123, [456, 654])
+    
+    ### Equivalent to: ::
+
+        @slash.slash(..., permissions={
+            123: [
+                create_permission(123, SlashCommandPermissionType.ROLE, False),
+                create_permission(456, SlashCommandPermissionType.ROLE, True),
+                create_permission(654, SlashCommandPermissionType.ROLE, True)
+            ]
+        })
+    """
+    def wrapper(cmd):
+        cmd = prepare_command(cmd, guild_id)
+        cmd = _deny_everyone(cmd, guild_id)
+        for role in roles:
+            cmd = _allow_role(cmd, guild_id, role)
+        return cmd
+    return wrapper
+
+def allow_roles(guild_id:int, roles:list[int]):
+    """Decorator, allow access for selected roles
+
+    ### Args:
+        `guild_id (int)`: Id of guild to apply permissions
+        `roles (list[int])`: List of role ids
+
+    ### Example: ::
+
+        @slash.slash(...)
+        @just_allow_roles(123, [456, 654])
+    
+    ### Equivalent to: ::
+
+        @slash.slash(..., permissions={
+            123: [
+                create_permission(456, SlashCommandPermissionType.ROLE, True),
+                create_permission(654, SlashCommandPermissionType.ROLE, True)
+            ]
+        })
+    """
+    def wrapper(cmd):
+        cmd = prepare_command(cmd, guild_id)
+        for role in roles:
+            cmd = _allow_role(cmd, guild_id, role)
+        return cmd
+    return wrapper
+
+def deny_roles(guild_id:int, roles:list[int]):
+    """Decorator, deny permissions for selected roles
+
+    ### Args:
+        `guild_id (int)`: Id of the guild to apply permission
+        `roles (list[int])`: List of role ids
+
+    ### Example: ::
+
+        @slash.slash(...)
+        @deny_roles(123, [456, 654])
+
+    ### Equivalent to: ::
+
+        @slash.slash(..., permissions={
+            123: [
+                create_permission(456, SlashCommandPermissionType.ROLE, False),
+                create_permission(654, SlashCommandPermissionType.ROLE, False)
+            ]
+        })
+    """
+    def wrapper(cmd):
+        cmd = prepare_command(cmd, guild_id)
+        for role in roles:
+            cmd = _allow_role(cmd, guild_id, role, False)
+        return cmd
+    return wrapper
+
+# USER PERMISSIONS ------>
+
+def _allow_user(cmd, guild_id:int, user_id:int, allow:bool=True):
+    """Create a USER type permission
+
+    ### Args:
+        `cmd`: Command
+        `guild_id (int)`: Guild id to apply permission
+        `user_id (int)`: User id to apply permission
+        `allow (bool, optional)`: Allow or deny permission. Defaults to True.
+
+    Returns:
+        `cmd`: Command with permission created
+    """
+    cmd.__permissions__[guild_id].append(
+        create_permission(user_id, SlashCommandPermissionType.USER, allow)
+    )
+    return cmd
+
+def allow_users(guild_id:int, users:list[int]):
+    """Decorator, Allow access for selected users
+
+    ### Args:
+        `guild_id (int)`: Guild id to apply permission
+        `users (list[int])`: List of user ids
+    
+    ### Example: ::
+
+        @slash.slash(...)
+        @allow_users(123, [456, 654])
+
+    ### Equivalent to: ::
+
+        @slash.slash(..., permissions={
+            123: [
+                create_permission(456, SlashCommandPermissionType.USER, True),
+                create_permission(654, SlashCommandPermissionType.USER, True)
+            ]
+        })
+    """
+    def wrapper(cmd):
+        cmd = prepare_command(cmd, guild_id)
+        for user in users:
+            _allow_user(cmd, guild_id, user)
+        return cmd
+    return wrapper
+
+def deny_users(guild_id:int, users:list[int]):
+    """Decorator, Deny access for selected users
+
+    ### Args:
+        `guild_id (int)`: Guild id to apply permission
+        `users (list[int])`: List of user ids
+    
+    ### Example: ::
+
+        @slash.slash(...)
+        @deny_users(123, [456, 654])
+
+    ### Equivalent to: ::
+
+        @slash.slash(..., permissions={
+            123: [
+                create_permission(456, SlashCommandPermissionType.USER, False),
+                create_permission(654, SlashCommandPermissionType.USER, False)
+            ]
+        })
+    """
+    def wrapper(cmd):
+        cmd = prepare_command(cmd, guild_id)
+        for user in users:
+            _allow_user(cmd, guild_id, user, False)
+        return cmd
+    return wrapper
+
+def only_allow_users(guild_id:int, users:list[int]):
+    """Decorator, Allow access for selected users
+
+    ### Args:
+        `guild_id (int)`: Guild id to apply permission
+        `users (list[int])`: List of user ids
+    
+    ### Example: ::
+
+        @slash.slash(...)
+        @only_allow_users(123, [456, 654])
+
+    ### Equivalent to: ::
+
+        @slash.slash(..., permissions={
+            123: [
+                create_permission(123, SlashCommandPermissionType.USER, False),
+                create_permission(456, SlashCommandPermissionType.USER, True),
+                create_permission(654, SlashCommandPermissionType.USER, True)
+            ]
+        })
+    """
+    def wrapper(cmd):
+        cmd = prepare_command(cmd, guild_id)
+        cmd = _deny_everyone(cmd, guild_id)
+        for user in users:
+            _allow_user(cmd, guild_id, user)
+        return cmd
+    return wrapper
