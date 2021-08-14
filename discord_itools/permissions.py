@@ -1,40 +1,50 @@
+from typing import Union
 from discord_slash.model import SlashCommandPermissionType
 from discord_slash.utils.manage_commands import create_permission
 
-def prepare_command(cmd, guild_id:int):
+def prepare_command(cmd, guild_id:Union[int, list[int]]):
     """Prepare command adding permissions param and guild_id key if needed
 
     ### Args:
         `cmd`: Command to prepare
-        `guild_id (int)`: Guild id to prepare
+        `guild_id (int, list[int])`: Guild id(s) to prepare
 
     ### Returns:
         `cmd`: Command with `__permissions__` and `__permissions__[guild_id]`
     """
     if not getattr(cmd, "__permissions__", None):
         cmd.__permissions__ = {}
-    if guild_id not in cmd.__permissions__:
+    if isinstance(guild_id, list):
+        for id in guild_id:
+            if id not in cmd.__permissions__:
+                cmd.__permissions__[id] = []
+    else:
+        if guild_id not in cmd.__permissions__:
             cmd.__permissions__[guild_id] = []
     return cmd
 
-def _deny_everyone(cmd, guild_id:int):
+def _deny_everyone(cmd, guild_id:Union[int, list[int]]):
     """Deny permission for @everyone
 
     ### Args:
         `cmd`: Command
-        `guild_id (int)`: Guild id to apply permission
+        `guild_id (int, list[int])`: Guild id(s) to apply permission
 
     ### Returns:
         `cmd`: Command with @everyone denied permission
     """
-    cmd.__permissions__[guild_id].append(create_permission(guild_id, SlashCommandPermissionType.ROLE, False))
+    if isinstance(guild_id, list):
+        for id in guild_id:
+            cmd.__permissions__[id].append(create_permission(id, SlashCommandPermissionType.ROLE, False))
+    else:
+        cmd.__permissions__[guild_id].append(create_permission(guild_id, SlashCommandPermissionType.ROLE, False))
     return cmd
 
-def deny_all(guild_id:int):
+def deny_all(guild_id:Union[int, list[int]]):
     """Decorator, deny permissions for @everyone
 
     ### Args:
-        `guild_id (int)`: Id of guild to apply permission
+        `guild_id (int, list[int])`: Id(s) of guild to apply permission
 
     ### Example: ::
 
@@ -57,28 +67,34 @@ def deny_all(guild_id:int):
 
 # ROLE PERMISSIONS ------>
 
-def _allow_role(cmd, guild_id:int, role_id:int, allow:bool=True):
+def _allow_role(cmd, guild_id:Union[int, list[int]], role_id:int, allow:bool=True):
     """Create ROLE type permission
 
     ### Args:
         `cmd`: Command
-        `guild_id (int)`: Guild id to apply permission
+        `guild_id (int, list[int])`: Guild id to apply permission
         `role_id (int)`: Role id to apply permission
         `allow (bool, optional)`: Allow or deny permission. Defaults to True.
 
     ### Returns:
         `cmd`: Command with permission created
     """
-    cmd.__permissions__[guild_id].append(
-        create_permission(role_id, SlashCommandPermissionType.ROLE, allow)
-    )
+    if isinstance(guild_id, list):
+        for id in guild_id:
+            cmd.__permissions__[id].append(
+                create_permission(role_id, SlashCommandPermissionType.ROLE, allow)
+            )
+    else:
+        cmd.__permissions__[guild_id].append(
+            create_permission(role_id, SlashCommandPermissionType.ROLE, allow)
+        )
     return cmd
 
-def only_allow_roles(guild_id:int, roles:list[int]):
+def only_allow_roles(guild_id:Union[int, list[int]], roles:list[int]):
     """Decorator, deny permissions for @everyone and allow only for selected roles
 
     ### Args:
-        `guild_id (int)`: Id of guild to apply permissions
+        `guild_id (int, list[int])`: Id(s) of guild to apply permissions
         `roles (list[int])`: List of role ids
 
     ### Example: ::
@@ -104,11 +120,11 @@ def only_allow_roles(guild_id:int, roles:list[int]):
         return cmd
     return wrapper
 
-def allow_roles(guild_id:int, roles:list[int]):
+def allow_roles(guild_id:Union[int, list[int]], roles:list[int]):
     """Decorator, allow access for selected roles
 
     ### Args:
-        `guild_id (int)`: Id of guild to apply permissions
+        `guild_id (int)`: Id(s) of guild to apply permissions
         `roles (list[int])`: List of role ids
 
     ### Example: ::
@@ -132,11 +148,11 @@ def allow_roles(guild_id:int, roles:list[int]):
         return cmd
     return wrapper
 
-def deny_roles(guild_id:int, roles:list[int]):
+def deny_roles(guild_id:Union[int, list[int]], roles:list[int]):
     """Decorator, deny permissions for selected roles
 
     ### Args:
-        `guild_id (int)`: Id of the guild to apply permission
+        `guild_id (int, list[int])`: Id(s) of the guild to apply permission
         `roles (list[int])`: List of role ids
 
     ### Example: ::
@@ -162,28 +178,34 @@ def deny_roles(guild_id:int, roles:list[int]):
 
 # USER PERMISSIONS ------>
 
-def _allow_user(cmd, guild_id:int, user_id:int, allow:bool=True):
+def _allow_user(cmd, guild_id:Union[int, list[int]], user_id:int, allow:bool=True):
     """Create a USER type permission
 
     ### Args:
         `cmd`: Command
-        `guild_id (int)`: Guild id to apply permission
+        `guild_id (int, list[int])`: Guild id(s) to apply permission
         `user_id (int)`: User id to apply permission
         `allow (bool, optional)`: Allow or deny permission. Defaults to True.
 
     Returns:
         `cmd`: Command with permission created
     """
-    cmd.__permissions__[guild_id].append(
-        create_permission(user_id, SlashCommandPermissionType.USER, allow)
-    )
+    if isinstance(guild_id, list):
+        for id in guild_id:
+            cmd.__permissions__[id].append(
+                create_permission(user_id, SlashCommandPermissionType.USER, allow)
+            )
+    else:
+        cmd.__permissions__[guild_id].append(
+            create_permission(user_id, SlashCommandPermissionType.USER, allow)
+        )
     return cmd
 
-def allow_users(guild_id:int, users:list[int]):
+def allow_users(guild_id:Union[int, list[int]], users:list[int]):
     """Decorator, Allow access for selected users
 
     ### Args:
-        `guild_id (int)`: Guild id to apply permission
+        `guild_id (int, list[int])`: Guild id(s) to apply permission
         `users (list[int])`: List of user ids
     
     ### Example: ::
@@ -207,11 +229,11 @@ def allow_users(guild_id:int, users:list[int]):
         return cmd
     return wrapper
 
-def deny_users(guild_id:int, users:list[int]):
+def deny_users(guild_id:Union[int, list[int]], users:list[int]):
     """Decorator, Deny access for selected users
 
     ### Args:
-        `guild_id (int)`: Guild id to apply permission
+        `guild_id (int)`: Guild id(s) to apply permission
         `users (list[int])`: List of user ids
     
     ### Example: ::
@@ -235,11 +257,11 @@ def deny_users(guild_id:int, users:list[int]):
         return cmd
     return wrapper
 
-def only_allow_users(guild_id:int, users:list[int]):
+def only_allow_users(guild_id:Union[int, list[int]], users:list[int]):
     """Decorator, Allow access for selected users
 
     ### Args:
-        `guild_id (int)`: Guild id to apply permission
+        `guild_id (int, list[int])`: Guild id(s) to apply permission
         `users (list[int])`: List of user ids
     
     ### Example: ::

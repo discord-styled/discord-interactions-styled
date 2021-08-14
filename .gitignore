@@ -1,2 +1,5 @@
-build/
 *.pyc
+cogs/
+dist/
+init.py
+nodemon.json
