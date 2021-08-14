@@ -5,8 +5,8 @@ with open("README.md", "r", encoding="UTF-8") as f:
     README = f.read()
 
 setup(
-    name="discord-interactions-tools",
-    version="0.1.0",
+    name="discord-interactions-styled",
+    version="0.2.0",
     author="gammx",
     author_email="gammxplus@gmail.com",
     description="A simple set of tools to write easier code using discord-py-interactions",
@@ -14,7 +14,7 @@ setup(
     license="MIT License",
     long_description=README,
     long_description_content_type="text/markdown",
-    url="https://github.com/discord-interactions-tools/discord-interactions-tools",
+    url="https://github.com/discord-interactions-styled/discord-interactions-styled",
     packages=find_packages(),
     python_requires=">=3.6",
     classifiers=[
