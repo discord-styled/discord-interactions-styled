@@ -1,8 +1,7 @@
-from discord_slash.model import SlashCommandPermissionType
-from discord_slash.utils.manage_commands import create_choice, create_option, create_permission
-from discord_slash import cog_ext
+from typing import Union
+from discord_slash.utils.manage_commands import create_choice, create_option
 
-def option(name:str, description:str, type:int=3, required:bool=True, choices:list=[]):
+def option(name:str, description:str, type:Union[int, type]=3, required:bool=True, choices:list=[]):
     """Decorator to add an option to a slash command
 
     ### Example: ::
@@ -21,7 +20,7 @@ def option(name:str, description:str, type:int=3, required:bool=True, choices:li
     ### Args:
         `name (str)`: Option's name
         `description (str)`: Option's description
-        `type (int, optional)`: Option's type. Defaults to 3.
+        `type (Union[int, type], optional)`: Option's type. Defaults to 3.
         `required (bool, optional)`: Should require this option or not. Defaults to True.
         `choices (list, optional)`: Option's choices. Defaults to [].
     """
