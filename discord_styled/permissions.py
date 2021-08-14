@@ -23,12 +23,13 @@ def prepare_command(cmd, guild_id:Union[int, list[int]]):
             cmd.__permissions__[guild_id] = []
     return cmd
 
-def _deny_everyone(cmd, guild_id:Union[int, list[int]]):
+def _set_everyone_permission(cmd, guild_id:Union[int, list[int]], allow:bool=False):
     """Deny permission for @everyone
 
     ### Args:
         `cmd`: Command
         `guild_id (int, list[int])`: Guild id(s) to apply permission
+        `allow` (bool, optional): Allow or deny
 
     ### Returns:
         `cmd`: Command with @everyone denied permission
@@ -37,7 +38,7 @@ def _deny_everyone(cmd, guild_id:Union[int, list[int]]):
         for id in guild_id:
             cmd.__permissions__[id].append(create_permission(id, SlashCommandPermissionType.ROLE, False))
     else:
-        cmd.__permissions__[guild_id].append(create_permission(guild_id, SlashCommandPermissionType.ROLE, False))
+        cmd.__permissions__[guild_id].append(create_permission(guild_id, SlashCommandPermissionType.ROLE, allow))
     return cmd
 
 def deny_all(guild_id:Union[int, list[int]]):
@@ -55,13 +56,38 @@ def deny_all(guild_id:Union[int, list[int]]):
 
         @slash.slash(..., permissions={
             123: [
-                create_permission(123, SlashCommandPermissionType.ROLE, 123)
+                create_permission(123, SlashCommandPermissionType.ROLE, False)
             ]
         })
     """
     def wrapper(cmd):
         cmd = prepare_command(cmd, guild_id)
-        cmd = _deny_everyone(cmd, guild_id)
+        cmd = _set_everyone_permission(cmd, guild_id)
+        return cmd
+    return wrapper
+
+def allow_all(guild_id:Union[int, list[int]]):
+    """Decorator, allow permissions for @everyone
+
+    ### Args:
+        `guild_id (int, list[int])`: Id(s) of guild to apply permission
+
+    ### Example: ::
+
+        @slash.slash(...)
+        @allow_all(123)
+    
+    ### Equivalent to: ::
+
+        @slash.slash(..., permissions={
+            123: [
+                create_permission(123, SlashCommandPermissionType.ROLE, True)
+            ]
+        })
+    """
+    def wrapper(cmd):
+        cmd = prepare_command(cmd, guild_id)
+        cmd = _set_everyone_permission(cmd, guild_id, True)
         return cmd
     return wrapper
 
@@ -114,7 +140,7 @@ def only_allow_roles(guild_id:Union[int, list[int]], roles:list[int]):
     """
     def wrapper(cmd):
         cmd = prepare_command(cmd, guild_id)
-        cmd = _deny_everyone(cmd, guild_id)
+        cmd = _set_everyone_permission(cmd, guild_id)
         for role in roles:
             cmd = _allow_role(cmd, guild_id, role)
         return cmd
@@ -281,7 +307,7 @@ def only_allow_users(guild_id:Union[int, list[int]], users:list[int]):
     """
     def wrapper(cmd):
         cmd = prepare_command(cmd, guild_id)
-        cmd = _deny_everyone(cmd, guild_id)
+        cmd = _set_everyone_permission(cmd, guild_id)
         for user in users:
             _allow_user(cmd, guild_id, user)
         return cmd
