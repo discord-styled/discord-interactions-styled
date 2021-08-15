@@ -10,7 +10,7 @@ setup(
     author="gammx",
     author_email="gammxplus@gmail.com",
     description="A simple set of tools to write easier code using discord-py-interactions",
-    install_requires=["discord-py-slash-command"],
+    install_requires=["discord.py", "discord-py-slash-command"],
     license="MIT License",
     long_description=README,
     long_description_content_type="text/markdown",

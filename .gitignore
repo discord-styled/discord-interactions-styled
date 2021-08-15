@@ -3,3 +3,4 @@ cogs/
 dist/
 init.py
 nodemon.json
+*.egg-info/
