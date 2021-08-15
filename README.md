@@ -8,7 +8,8 @@
     <a href="#installation">Installation</a> |
     <a href="#examples">Examples</a> |
     <a href="https://discord.gg/kNYjuz2Jjv">Discord</a> |
-    <a href="">PyPI</a>
+    <a href="https://pypi.org/project/discord-interactions-styled/">PyPI</a> |
+    <a href="https://discord-styled.vercel.app/">Documentation</a>
 </p>
 
 # About
@@ -83,7 +84,7 @@ from discord_styled.permissions import deny_all
 ```
 
 ## Documentation
-These are just a few examples, we recommend you to go and visit the official documentation
+These are just a few examples, we recommend you to go and visit the [official documentation](https://discord-styled.vercel.app/)
 
 --------
 
