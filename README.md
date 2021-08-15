@@ -9,7 +9,7 @@
     <a href="#examples">Examples</a> |
     <a href="https://discord.gg/kNYjuz2Jjv">Discord</a> |
     <a href="https://pypi.org/project/discord-interactions-styled/">PyPI</a> |
-    <a href="https://discord-styled.vercel.app/">Documentation</a>
+    <a href="https://discord-styled.github.io/">Documentation</a>
 </p>
 
 # About
