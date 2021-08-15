@@ -84,7 +84,7 @@ from discord_styled.permissions import deny_all
 ```
 
 ## Documentation
-These are just a few examples, we recommend you to go and visit the [official documentation](https://discord-styled.vercel.app/)
+These are just a few examples, we recommend you to go and visit the [official documentation](https://discord-styled.github.io/)
 
 --------
 
