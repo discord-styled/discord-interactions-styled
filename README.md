@@ -1,6 +1,6 @@
 <div align="center">
     <a><img src="https://cdn.discordapp.com/attachments/875651719088984125/875884861926285364/logo.gif" alt="discord-py-interactions" height="128"></a>
-    <h2>Write easier code using <a href="https://github.com/discord-py-interactions/discord-py-interactions">discord-interactions</a> with <a href="https://github.com/discord-interactions-styled/discord-interactions-styled">interactions-styled</a>.</h2>
+    <h2>Write easier code using <a href="https://github.com/discord-py-interactions/discord-py-interactions">discord-interactions</a> with <a href="https://github.com/discord-styled/discord-interactions-styled">interactions-styled</a>.</h2>
 </div>
 
 <p align="center">
@@ -88,4 +88,4 @@ These are just a few examples, we recommend you to go and visit the [official do
 
 --------
 
-- <a href="https://github.com/discord-interactions-styled/discord-interactions-styled">discord-interactions-styled</a> is not an independant library, all the logic comes from <a href="https://github.com/discord-py-interactions/discord-py-interactions">discord-py-interactions</a>, so this isn't an alternative to that lib, we're just providing a set of tools to use discord-py-interactions more easily.
+- <a href="https://github.com/discord-styled/discord-interactions-styled">discord-interactions-styled</a> is not an independant library, all the logic comes from <a href="https://github.com/discord-py-interactions/discord-py-interactions">discord-py-interactions</a>, so this isn't an alternative to that lib, we're just providing a set of tools to use discord-py-interactions more easily.
