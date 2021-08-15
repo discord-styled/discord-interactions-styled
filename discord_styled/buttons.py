@@ -34,7 +34,10 @@ def button(style:Union[int, str, ButtonStyle]="PRIMARY", label:Union[str, None]=
         )
     """
     if isinstance(style, str):
-        style = ButtonStyle.__dict__[style.lower()]
+        style = style.lower()
+        if url:
+            style = "URL"
+        style = ButtonStyle.__dict__[style]
     return create_button(style, label, emoji, custom_id, url, disabled)
 
 def buttons(*button_list:list[dict]) -> dict:
