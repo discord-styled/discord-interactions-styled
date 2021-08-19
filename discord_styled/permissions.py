@@ -2,6 +2,23 @@ from typing import Union
 from discord_slash.model import SlashCommandPermissionType
 from discord_slash.utils.manage_commands import create_permission
 
+def permissions(permissions:dict):
+    """Apply a slash command permissions template.
+
+    ### Args:
+        `permissions (dict)`: Permissions template
+    
+    ### Example: ::
+
+        @slash.slash(...)
+        @permissions(my_permissions)
+
+    """
+    def wrapper(cmd):
+        cmd.__permissions__ = permissions
+        return cmd
+    return wrapper
+
 def prepare_command(cmd, guild_id:Union[int, list[int]]):
     """Prepare command adding permissions param and guild_id key if needed
 
