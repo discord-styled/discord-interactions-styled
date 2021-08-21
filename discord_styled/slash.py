@@ -25,13 +25,15 @@ def option(name:str, description:str, type:Union[int, type]=3, required:bool=Tru
         `choices (list, optional)`: Option's choices. Defaults to [].
     """
     def wrapper(cmd):
-        if not getattr(cmd, "__options__", None):
-            cmd.__options__ = []
         for i, x in enumerate(choices):
             if isinstance(x, tuple):
                 choices[i] = create_choice(x[0], x[1])
             else:
                 choices[i] = create_choice(x, x)
-        cmd.__options__.append(create_option(name, description, type, required, choices))
+        if not hasattr(cmd, "__options__"):
+            cmd.__options__ = True
+            cmd.options = []
+        cmd.options.insert(0, create_option(name, description, type, required, choices))
+        print(cmd.options)
         return cmd
     return wrapper
