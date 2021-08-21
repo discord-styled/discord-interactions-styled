@@ -34,6 +34,5 @@ def option(name:str, description:str, type:Union[int, type]=3, required:bool=Tru
             cmd.__options__ = True
             cmd.options = []
         cmd.options.insert(0, create_option(name, description, type, required, choices))
-        print(cmd.options)
         return cmd
     return wrapper
