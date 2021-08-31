@@ -1,1 +1,1 @@
-from . import permissions
+from . import permissions, slash

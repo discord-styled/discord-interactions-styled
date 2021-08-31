@@ -1,6 +1,7 @@
 *.pyc
+*.egg-info/
 cogs/
 dist/
 init.py
 nodemon.json
-*.egg-info/
+utils.py

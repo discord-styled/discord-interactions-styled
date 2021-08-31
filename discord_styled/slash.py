@@ -1,6 +1,26 @@
 from typing import Union
 from discord_slash.utils.manage_commands import create_choice, create_option
 
+def options(template:list):
+    """Decorator to add a template of options
+
+    Args:
+        template (list): Template of options
+    
+    Example: ::
+
+        @slash.slash(...)
+        @options(my_template)
+    """
+    def wrapper(cmd):
+        if not hasattr(cmd, "__options__"):
+            cmd.__options__ = True
+            cmd.options = []
+        for option in template:
+            cmd.options.append(create_option(option['name'], option['description'], option['type'], option['required'], option['choices']))
+        return cmd
+    return wrapper
+
 def option(name:str, description:str, type:Union[int, type]=3, required:bool=True, choices:list=[]):
     """Decorator to add an option to a slash command
 
