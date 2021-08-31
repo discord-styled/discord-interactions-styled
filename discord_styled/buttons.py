@@ -11,12 +11,12 @@ def button(style:Union[int, str, ButtonStyle]="PRIMARY", label:Union[str, None]=
     """Creates a button for use within an action row
 
     ### Args:
-        `style (Union[int, str, ButtonStyle], optional)`: The style of the button. Defaults to "PRIMARY".
-        `label (Union[str, None], optional)`: The label of the button. Defaults to None.
-        `emoji (Union[Emoji, PartialEmoji, str, None], optional)`: The emoji of the button. Defaults to None.
-        `custom_id (Union[str, None], optional)`: The id of the button. Needed for non-link buttons. Defaults to None.
-        `url (Union[str, None], optional)`: The URL of the button. Needed for link buttons. Defaults to None.
-        `disabled (bool, optional)`: Whether the button is disabled or not. Defaults to False.
+        style (`Union[int, str, ButtonStyle], optional`): The style of the button. Defaults to "PRIMARY".
+        label (`Union[str, None], optional`): The label of the button. Defaults to None.
+        emoji (`Union[Emoji, PartialEmoji, str, None], optional`): The emoji of the button. Defaults to None.
+        custom_id (`Union[str, None], optional`): The id of the button. Needed for non-link buttons. Defaults to None.
+        url (`Union[str, None], optional`): The URL of the button. Needed for link buttons. Defaults to None.
+        disabled (`bool, optional`): Whether the button is disabled or not. Defaults to False.
 
     ### Returns:
         dict: Button
@@ -67,11 +67,11 @@ async def wait_button(client:discord.Client, buttons:Union[str, dict, list], mes
     """Waits for a button interaction. Alternative to `wait_for_component`.
 
     ### Args:
-        `client (discord.Client)`: The client/bot object.
-        `buttons (Union[str, dict, list])`: Custom ID to check for, or button dict (buttons or button) or list of previous two.
-        `messages (Union[Message, int, list, None], optional)`: The message object to check for, or the message ID or list of the previous two. Defaults to None.
-        `check ([type], optional)`: Optional check function. Must take `ComponentContext` as the first parameter. Defaults to None.
-        `timeout ([type], optional)`: The number of seconds to wait before timing out and raising `asyncio.TimeoutError`. Defaults to None.
+        client (`discord.Client`): The client/bot object.
+        buttons (`Union[str, dict, list]`): Custom ID to check for, or button dict (buttons or button) or list of previous two.
+        messages (`Union[Message, int, list, None], optional`): The message object to check for, or the message ID or list of the previous two. Defaults to None.
+        check (`[type], optional`): Optional check function. Must take `ComponentContext` as the first parameter. Defaults to None.
+        timeout (`[type], optional`): The number of seconds to wait before timing out and raising `asyncio.TimeoutError`. Defaults to None.
 
     ### Raises:
         `asyncio.TimeoutError`

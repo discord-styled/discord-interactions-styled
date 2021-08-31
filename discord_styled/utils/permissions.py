@@ -6,7 +6,7 @@ class Permissions:
     """Creates a slash command permissions template
 
     ### Args:
-        `guild_id (int, list[int])`: List of guild ids
+        guild_id (`int, list[int]`): List of guild ids
     
     ### Example: ::
 
@@ -23,7 +23,7 @@ class Permissions:
         """Allow or deny permission to @everyone
 
         ### Args:
-            `allow (bool, optional)`: Whether to allow or deny permission. Defaults to False.
+            allow (`bool, optional`): Whether to allow or deny permission. Defaults to False.
         
         ### Returns:
             `dict`: Permissions
@@ -43,8 +43,8 @@ class Permissions:
         """Allow or deny permissions to a list of user ids
 
         ### Args:
-            `users (list[int])`: List of user ids
-            `allow (bool, optional)`: Whether to allow or deny permission. Defaults to True.
+            users (`list[int]`): List of user ids
+            allow (`bool, optional`): Whether to allow or deny permission. Defaults to True.
         
         ### Returns:
             `dict`: Permissions
@@ -63,7 +63,7 @@ class Permissions:
         """Deny permissions for @everyone and allow them to a list of users ids
 
         ### Args:
-            `users (list[int])`: List of users ids
+            users (`list[int]`): List of users ids
         
         ### Returns:
             `dict`: Permissions
@@ -87,7 +87,7 @@ class Permissions:
         """Deny permissions for a list of user ids, same as `allow_users(..., False)`
 
         ### Args:
-            `users (list[int])`: List of user ids
+            users (`list[int]`): List of user ids
         
         ### Returns:
             `dict`: Permissions
@@ -109,8 +109,8 @@ class Permissions:
         """Allow permissions for a list of role ids
 
         ### Args:
-            `roles (list)`: List of role ids
-            `allow (bool, optional)`: Whether to allow or deny permission. Defaults to True.
+            roles (`list`): List of role ids
+            allow (`bool, optional`): Whether to allow or deny permission. Defaults to True.
         
         ### Returns:
             `dict`: Permissions
@@ -129,7 +129,7 @@ class Permissions:
         """Deny permissions for @everyone and allow them to a list of role ids
 
         ### Args:
-            `roles (list)`: List of role ids
+            roles (`list`): List of role ids
         
         ### Returns:
             `dict`: Permissions
@@ -153,7 +153,7 @@ class Permissions:
         """Deny permissions to a list of role ids, same as `allow_roles(..., False)`
 
         ### Args:
-            `roles (list[int])`: List of role ids
+            roles (`list[int]`): List of role ids
         
         ### Returns:
             `dict`: Permissions

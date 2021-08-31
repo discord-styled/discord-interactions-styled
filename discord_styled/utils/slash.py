@@ -5,7 +5,7 @@ from discord_slash.utils.manage_commands import create_choice, create_option
 class Options:
     """Creates a slash command options template
 
-    Example: ::
+    ### Example: ::
 
         my_options = Options()
     """
@@ -16,13 +16,13 @@ class Options:
     def _prepare_choices(self, choices:list) -> list:
         """Convert list of choices to dictionaries
 
-        Args:
-            choices (list): List of choices
+        ### Args:
+            choices (`list`): List of choices
 
-        Returns:
-            list: List of dictionaries
+        ### Returns:
+            `list`: List of dictionaries
         
-        Example: ::
+        ### Example: ::
 
             my_options = Options()
             my_options.add("my_option", "This is my description")
@@ -37,10 +37,10 @@ class Options:
     def template(self) -> list:
         """Get the options template. Note: Don't do this until you've defined all your options.
 
-        Returns:
-            list: Template of options
+        ### Returns:
+            `list`: Template of options
         
-        Example: ::
+        ### Example: ::
 
             my_options = Options()
             my_options.add("option1", "etc..")
@@ -55,15 +55,15 @@ class Options:
     def add(self, name:str, description:str, type:Union[type, int]=3, required:bool=True, choices:list=[]) -> list:
         """Add option to template
 
-        Args:
-            name (str): Name of the option
-            description (str): Description of the option
-            type (Union[type, int], optional): Type of the option. Defaults to 3.
-            required (bool, optional): Whether the option is disabled or not. Defaults to True.
-            choices (list, optional): List of choices. Defaults to [].
+        ### Args:
+            name (`str`): Name of the option
+            description (`str`): Description of the option
+            type (`Union[type, int], optional`): Type of the option. Defaults to 3.
+            required (`bool, optional`): Whether the option is disabled or not. Defaults to True.
+            choices (`list, optional`): List of choices. Defaults to [].
 
-        Returns:
-            dict: Options list
+        ### Returns:
+            `dict`: Options list
         """
         choices = self._prepare_choices(choices)
         self.options.append(create_option(name, description, type, required, choices))
@@ -72,13 +72,13 @@ class Options:
     def add_from_dict(self, option:dict) -> list:
         """Generate option from dictionary and add it to template
 
-        Args:
-            option (dict): Option's dict
+        ### Args:
+            option (`dict`): Option's dict
 
-        Returns:
-            dict: Options list
+        ### Returns:
+            `dict`: Options list
         
-        Example: ::
+        ### Example: ::
 
             my_options = Options()
             data = {"name": "my_option", "description": "My description"}
@@ -98,13 +98,13 @@ class Options:
     def add_from_dicts(self, options:list) -> list:
         """Generate options from a list of dicts and add them to template
 
-        Args:
-            options (list): List of dicts
+        ### Args:
+            options (`list`): List of dicts
 
-        Returns:
-            dict: Options list
+        ### Returns:
+            `dict`: Options list
         
-        Example: ::
+        ### Example: ::
 
             data = [
                 {"name": "option1", "description": "One option"},
