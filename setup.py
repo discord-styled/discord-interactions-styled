@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="UTF-8") as f:
 
 setup(
     name="discord-interactions-styled",
-    version="0.4.2",
+    version="0.5.0",
     author="gammx",
     author_email="gammxplus@gmail.com",
     description="A simple set of tools to write easier code using discord-py-interactions",
