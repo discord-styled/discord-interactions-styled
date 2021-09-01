@@ -17,7 +17,7 @@ def options(template:list):
             cmd.__options__ = True
             cmd.options = []
         for option in template:
-            cmd.options.append(create_option(option['name'], option['description'], option['type'], option['required'], option['choices']))
+            cmd.options.insert(0, option)
         return cmd
     return wrapper
 
