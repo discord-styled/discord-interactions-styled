@@ -95,7 +95,7 @@ class Options:
         self.options.append(create_option(option["name"], option["description"], option_type, required, choices))
         return self.options
     
-    def add_from_dicts(self, options:list) -> list:
+    def add_from_dicts(self, options:list[dict]) -> list:
         """Generate options from a list of dicts and add them to template
 
         ### Args:
